@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Security Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #2980b9, #8e44ad);
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 400px;
+            width: 90%;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease forwards, shadowPulse 3s ease-in-out infinite;
+        }
+
+        .container:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeInDown 1.2s ease forwards;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .loader {
+            width: 18px;
+            height: 18px;
+            border: 3px solid #fff;
+            border-top: 3px solid #0056b3;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shadowPulse {
+            0%, 100% { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+<div class="overlay"></div>
+
+<div class="container">
+    <h2 class="heading">Website Security Scanner</h2>
+    <form id="scannerForm" method="POST" action="/scan">
+        <div class="form-group">
+            <label for="url">Enter Website URL:</label>
+            <input type="url" id="url" name="url" class="form-control" placeholder="https://example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="scan_type">Select Scan Type:</label>
+            <select id="scan_type" name="scan_type" class="form-control" required>
+                <option value="vulnerability">🔍 Vulnerability Scan</option>
+                <option value="malware">🦠 Malware Scan</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn" id="startScanBtn">Start Scan</button>
+    </form>
+
+    <div class="footer">Powered by OWASP ZAP + Flask</div>
+</div>
+
+<script>
+    const form = document.getElementById('scannerForm');
+    const button = document.getElementById('startScanBtn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Animate button with loader
+        button.innerHTML = '<div class="loader"></div>';
+        button.style.pointerEvents = 'none';
+        button.style.backgroundColor = '#0056b3';
+
+        // Submit form after short delay (for animation)
+        setTimeout(() => {
+            form.submit();
+        }, 800);
+    });
+</script>
+</body>
+</html>
